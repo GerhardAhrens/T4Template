@@ -7,4 +7,31 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="Template\SimpleExample.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SimpleExample.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Template\SimpleExample.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SimpleExample.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Template\SimpleExample.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SimpleExample.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>
