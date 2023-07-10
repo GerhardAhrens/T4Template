@@ -12,6 +12,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\T4.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\T4.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Template\ReadCSVToModel.cs">
       <DependentUpon>ReadCSVToModel.tt</DependentUpon>
       <DesignTime>True</DesignTime>
