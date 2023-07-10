@@ -4,10 +4,19 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Template\SimpleExample - Kopieren.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Template\ReadCSVToModel.cs">
+      <DependentUpon>ReadCSVToModel.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </None>
     <None Include="Template\SimpleExample.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -16,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Template\ReadCSVToModel.tt">
+      <LastGenOutput>ReadCSVToModel.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="Template\SimpleExample.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SimpleExample.cs</LastGenOutput>
@@ -27,11 +40,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Template\ReadCSVToModel.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ReadCSVToModel.tt</DependentUpon>
+    </Compile>
     <Compile Update="Template\SimpleExample.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SimpleExample.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="InputFile\" />
+    <Folder Include="TemplateOut\" />
   </ItemGroup>
 
 </Project>

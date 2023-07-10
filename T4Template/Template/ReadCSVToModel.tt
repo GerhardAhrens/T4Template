@@ -20,10 +20,12 @@ string templateCompany = "Lifeprojects.de";
 string templateEMail = "developer@lifeprojects.de";
 string templateVersion = "1.0";
 string classNamespace = "TemplateProject.Class";
-string className = "TemplateDemo_A";
+string className = "DemoModel";
 string root = new DirectoryInfo(Host.ResolvePath("")).Parent.FullName;
 root = Path.Combine(root,"TemplateOut",$"{className}.cs");
 string templateFileName = Path.GetFileNameWithoutExtension(Host.TemplateFile);
+string importFile = @"e:\PTA2890\_Development\Sourcen\T4TemplateExamples\T4Template\T4Template\InputFile\DemoModel.csv";
+DataTable schemaDt = ImportSchemaFromCSV(importFile,new string[] {";" });
 #>
 
 //-----------------------------------------------------------------------
@@ -61,6 +63,22 @@ namespace <#= classNamespace #>
         public <#= className #>()
         {
         }
+
+        <#foreach(DataRow dr in schemaDt.Rows) {#>
+        <#
+          string name = dr["Columnname"].ToString();
+          string type = dr["Columntyp"].ToString();
+          string length = dr["Size"].ToString();
+          string columnDescription = dr["Description"].ToString();
+        #>
+
+        <#if (Convert.ToInt32(length) == -1){#>
+        /* Fieldname: <#= name #>; Datentyp: <#= name #>; Beschreibung: <#= columnDescription #>*/
+        <# }else { #>
+        /* Fieldname: <#= name #>; Datentyp: <#= name #>; Länge: <#= length #>; Beschreibung: <#= columnDescription #>*/
+        <# } #>
+        public <#= type #> <#= name #> { get; set; }
+        <#} #>
     }
 }
 
@@ -74,5 +92,49 @@ private void SaveOutput(string filename)
     File.Delete(filename);
     File.WriteAllText(filename, GenerationEnvironment.ToString().Trim());
     GenerationEnvironment.Clear();
+}
+
+private DataTable ImportSchemaFromCSV(string fullPath, string[] sepString)
+{
+    DataTable dt = new DataTable();
+    using (StreamReader sr = new StreamReader(fullPath))
+    {
+        //stream uses using statement because it implements iDisposable
+        string firstLine = sr.ReadLine();
+        var headers = firstLine.Split(sepString, StringSplitOptions.None);
+        foreach (var header in headers)
+        {
+            dt.Columns.Add(header);
+        }
+
+        int columnInterval = headers.Count();
+        string newLine = sr.ReadLine();
+        while (newLine != null)
+        {
+            var fields = newLine.Split(sepString, StringSplitOptions.None);
+            var currentLength = fields.Count();
+            if (currentLength < columnInterval)
+            {
+                while (currentLength < columnInterval)
+                {
+                    newLine += sr.ReadLine();
+                    currentLength = newLine.Split(sepString, StringSplitOptions.None).Count();
+                }
+                fields = newLine.Split(sepString, StringSplitOptions.None);
+            }
+
+            if (currentLength > columnInterval)
+            {
+                newLine = sr.ReadLine();
+                continue;
+            }
+
+            dt.Rows.Add(fields);
+            newLine = sr.ReadLine();
+        }
+        sr.Close();
+    }
+
+    return dt;
 }
 #>

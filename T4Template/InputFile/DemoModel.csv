@@ -1,0 +1,5 @@
+Columnname;Columntyp;Size;Description
+Name;string;50;Vor- und Nachname
+EMail;string;100;Email-Adresse
+ActiveDate;DateTime;-1;Aktive ab Datum
+Active;bool;-1;Datensatz aktiv/inaktive
